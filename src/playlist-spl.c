@@ -96,15 +96,6 @@ int is_spl_playlist(PTPObjectInfo *oi)
          (strcmp((oi->Filename + strlen(oi->Filename) - 4), ".spl") == 0);
 }
 
-#ifndef HAVE_MKSTEMP
-# ifdef __WIN32__
-#  include <fcntl.h>
-#  define mkstemp(_pattern) _open(_mktemp(_pattern), _O_CREAT | _O_SHORT_LIVED | _O_EXCL)
-# else
-#  error Missing mkstemp() function.
-# endif
-#endif
-
 /**
  * Take an object ID, a .spl playlist on the MTP device,
  * and convert it to a playlist_t object.

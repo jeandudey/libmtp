@@ -25,26 +25,10 @@
 #include "config.h" /* USE_MTPZ or not */
 #include "ptp.h" /* PTPParams */
 
-#ifdef USE_MTPZ
-
 uint16_t ptp_mtpz_handshake (PTPParams* params);
 int mtpz_loaddata(void);
 
-#else
-
-/* Stubs if mtpz is unused */
-static inline uint16_t ptp_mtpz_handshake (PTPParams* params)
-{
-  return PTP_RC_OperationNotSupported;
-}
-
-static inline int mtpz_loaddata(void)
-{
-  return -1;
-}
-
-#endif
-
+/* TODO: Remove this */
 int use_mtpz;
 
 #endif /* LIBMTP_H_INCLUSION_GUARD */

@@ -222,17 +222,3 @@ find_filetype (const char * filename)
   printf("type: %s, %d\n", ptype, filetype);
   return filetype;
 }
-
-/* Function that compensate for missing libgen.h on Windows */
-#ifndef HAVE_LIBGEN_H
-static char *basename(char *in) {
-  char *p;
-
-  if (in == NULL)
-    return NULL;
-  p = in + strlen(in) - 1;
-  while (*p != '\\' && *p != '/' && *p != ':')
-    { p--; }
-  return ++p;
-}
-#endif
