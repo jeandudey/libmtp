@@ -28,14 +28,14 @@
 #include <unistd.h>
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <string.h>
 #include "libmtp.h"
 #include "util.h"
+#include <errno.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
 
 /**
  * This dumps out a number of bytes to a textual, hexadecimal
@@ -46,16 +46,15 @@
  *            be dumped out in hex
  * @param n the number of bytes to dump from this buffer
  */
-void data_dump (FILE *f, void *buf, uint32_t n)
-{
-  unsigned char *bp = (unsigned char *) buf;
-  uint32_t i;
+void data_dump(FILE *f, void *buf, uint32_t n) {
+    unsigned char *bp = (unsigned char *)buf;
+    uint32_t i;
 
-  for (i = 0; i < n; i++) {
-    fprintf(f, "%02x ", *bp);
-    bp++;
-  }
-  fprintf(f, "\n");
+    for (i = 0; i < n; i++) {
+        fprintf(f, "%02x ", *bp);
+        bp++;
+    }
+    fprintf(f, "\n");
 }
 
 /**
@@ -70,56 +69,53 @@ void data_dump (FILE *f, void *buf, uint32_t n)
  * @param n the number of bytes to dump from this buffer
  * @param dump_boundry the address offset to start at (usually 0)
  */
-void data_dump_ascii (FILE *f, void *buf, uint32_t n, uint32_t dump_boundry)
-{
-  uint32_t remain = n;
-  uint32_t ln, lc;
-  int i;
-  unsigned char *bp = (unsigned char *) buf;
+void data_dump_ascii(FILE *f, void *buf, uint32_t n, uint32_t dump_boundry) {
+    uint32_t remain = n;
+    uint32_t ln, lc;
+    int i;
+    unsigned char *bp = (unsigned char *)buf;
 
-  lc = 0;
-  while (remain) {
-    fprintf(f, "\t%04x:", dump_boundry-0x10);
+    lc = 0;
+    while (remain) {
+        fprintf(f, "\t%04x:", dump_boundry - 0x10);
 
-    ln = ( remain > 16 ) ? 16 : remain;
+        ln = (remain > 16) ? 16 : remain;
 
-    for (i = 0; i < ln; i++) {
-      if ( ! (i%2) ) fprintf(f, " ");
-      fprintf(f, "%02x", bp[16*lc+i]);
+        for (i = 0; i < ln; i++) {
+            if (!(i % 2))
+                fprintf(f, " ");
+            fprintf(f, "%02x", bp[16 * lc + i]);
+        }
+
+        if (ln < 16) {
+            int width = ((16 - ln) / 2) * 5 + (2 * (ln % 2));
+            fprintf(f, "%*.*s", width, width, "");
+        }
+
+        fprintf(f, "\t");
+        for (i = 0; i < ln; i++) {
+            unsigned char ch = bp[16 * lc + i];
+            fprintf(f, "%c", (ch >= 0x20 && ch <= 0x7e) ? ch : '.');
+        }
+        fprintf(f, "\n");
+
+        lc++;
+        remain -= ln;
+        dump_boundry += ln;
     }
-
-    if ( ln < 16 ) {
-      int width = ((16-ln)/2)*5 + (2*(ln%2));
-      fprintf(f, "%*.*s", width, width, "");
-    }
-
-    fprintf(f, "\t");
-    for (i = 0; i < ln; i++) {
-      unsigned char ch= bp[16*lc+i];
-      fprintf(f, "%c", ( ch >= 0x20 && ch <= 0x7e ) ?
-	      ch : '.');
-    }
-    fprintf(f, "\n");
-
-    lc++;
-    remain -= ln;
-    dump_boundry += ln;
-  }
 }
 
 #ifndef HAVE_STRNDUP
-char *strndup (const char *s, size_t n)
-{
-  size_t len = strlen (s);
-  char *ret;
+char *strndup(const char *s, size_t n) {
+    size_t len = strlen(s);
+    char *ret;
 
-  if (len <= n)
-    return strdup (s);
+    if (len <= n)
+        return strdup(s);
 
-  ret = malloc(n + 1);
-  strncpy(ret, s, n);
-  ret[n] = '\0';
-  return ret;
+    ret = malloc(n + 1);
+    strncpy(ret, s, n);
+    ret[n] = '\0';
+    return ret;
 }
 #endif
-
