@@ -1,0 +1,19 @@
+[package]
+name = "mtp"
+version = "0.1.0"
+authors = ["Jean Pierre Dudey <jeandudey@hotmail.com>"]
+build = "build.rs"
+
+[lib]
+name = "mtp"
+path = "rust-src/lib.rs"
+test = true
+doctest = true
+bench = true
+doc = true
+
+[dependencies]
+libc = "0.2"
+
+[build-dependencies]
+cmake = "0.1.20"
