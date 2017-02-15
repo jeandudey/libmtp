@@ -1,0 +1,11 @@
+[package]
+name = "libmtp-sys"
+version = "0.1.0"
+description = "libMTP raw C bindings"
+workspace = "../../"
+
+[lib]
+path = "lib.rs"
+
+[dependencies]
+libc = "0.2"

@@ -1,6 +1,9 @@
-extern crate libc;
-#[macro_use]
-extern crate log;
+#![deny(missing_docs)]
 
-#[test]
-fn it_works() {}
+//! libmtp
+//! ------
+//!
+//! This is a port of the LibMTP librarry to Rust.
+
+extern crate libc;
+extern crate libmtp_sys;

@@ -4,6 +4,7 @@ version = "0.1.0"
 dependencies = [
  "cmake 0.1.20 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.2.20 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libmtp-sys 0.1.0",
 ]
 
 [[package]]
@@ -23,6 +24,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 name = "libc"
 version = "0.2.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "libmtp-sys"
+version = "0.1.0"
+dependencies = [
+ "libc 0.2.20 (registry+https://github.com/rust-lang/crates.io-index)",
+]
 
 [metadata]
 "checksum cmake 0.1.20 (registry+https://github.com/rust-lang/crates.io-index)" = "a3a6805df695087e7c1bcd9a82e03ad6fb864c8e67ac41b1348229ce5b7f0407"
