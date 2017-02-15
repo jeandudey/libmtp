@@ -21,3 +21,5 @@ set(MTP_SOURCE_FILES
 add_library(mtp STATIC ${MTP_SOURCE_FILES})
 target_link_libraries(mtp ${LIBUSB_LIBRARIES} ${GCRYPT_LIBRARIES})
 target_include_directories(mtp PUBLIC ${LIBUSB_INCLUDE_DIRS} ${GCRYPT_INCLUDE_DIRS} "../include")
+
+install(TARGETS mtp ARCHIVE DESTINATION "lib/")
