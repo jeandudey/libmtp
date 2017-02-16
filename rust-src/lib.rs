@@ -7,6 +7,9 @@
 
 extern crate libc;
 extern crate libmtp_sys;
+extern crate libusb;
+
+pub mod probe;
 
 /// The library context
 ///

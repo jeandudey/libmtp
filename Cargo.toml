@@ -4,8 +4,9 @@ version = "0.1.0"
 authors = ["Jean Pierre Dudey <jeandudey@hotmail.com>"]
 build = "build.rs"
 
-[workspace]
-members = ["rust-src/libmtp-sys/"]
+[[bin]]
+name = "mtp-probe"
+path = "rust-src/bin/mtp-probe.rs"
 
 [lib]
 name = "mtp"
@@ -18,6 +19,8 @@ doc = true
 [dependencies]
 libc = "0.2"
 libmtp-sys = { version = "0.1.0", path = "rust-src/libmtp-sys/" }
+libusb = "0.3"
+clap = "2.20"
 
 [build-dependencies]
 cmake = "0.1.20"
