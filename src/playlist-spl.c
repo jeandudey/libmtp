@@ -43,15 +43,7 @@
 
 #include "playlist-spl.h"
 
-/**
- * Debug macro
- */
-#define LIBMTP_PLST_DEBUG(format, args...)                                     \
-    do {                                                                       \
-        if ((LIBMTP_debug & LIBMTP_DEBUG_PLST) != 0)                           \
-            fprintf(stdout, "LIBMTP %s[%d]: " format, __FUNCTION__, __LINE__,  \
-                    ##args);                                                   \
-    } while (0)
+#define LIBMTP_PLST_DEBUG(format, args...) do { } while (0)
 
 // Internal singly linked list of strings
 // used to hold .spl playlist in memory

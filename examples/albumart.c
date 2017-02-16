@@ -62,9 +62,6 @@ int main (int argc, char **argv) {
     switch (opt) {
     case 'h':
       usage();
-    case 'd':
-      LIBMTP_Set_Debug(LIBMTP_DEBUG_PTP | LIBMTP_DEBUG_DATA);
-      break;
     case 'i':
       idcount++;
       if ((tmp = realloc(ids, sizeof(uint32_t) * (idcount))) == NULL) {

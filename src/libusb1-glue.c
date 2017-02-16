@@ -135,8 +135,6 @@ static LIBMTP_error_number_t init_usb() {
         return LIBMTP_ERROR_USB_LAYER;
     }
 
-    if ((LIBMTP_debug & LIBMTP_DEBUG_USB) != 0)
-        libusb_set_debug(NULL, 9);
     return LIBMTP_ERROR_NONE;
 }
 

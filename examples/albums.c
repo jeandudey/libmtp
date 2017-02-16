@@ -41,14 +41,6 @@ int main (int argc, char *argv[]) {
   extern int optind;
   extern char *optarg;
 
-  while ((opt = getopt(argc, argv, "d")) != -1 ) {
-    switch (opt) {
-    case 'd':
-      LIBMTP_Set_Debug(LIBMTP_DEBUG_PTP | LIBMTP_DEBUG_DATA);
-      break;
-    }
-  }
-
   argc -= optind;
   argv += optind;
 
