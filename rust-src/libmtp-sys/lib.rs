@@ -608,6 +608,13 @@ pub enum _bindgen_ty_5 {
 pub use self::_bindgen_ty_5 as LIBMTP_error_number_t;
 
 #[repr(C)]
+#[derive(Debug)]
+pub struct LIBMTP_Context_struct {
+    pub use_mtpz: libc::c_int,
+}
+pub type LIBMTP_Context = LIBMTP_Context_struct;
+
+#[repr(C)]
 #[derive(Debug, Copy)]
 pub struct LIBMTP_device_entry_struct {
     pub vendor: *mut libc::c_char,
@@ -1000,10 +1007,8 @@ pub enum LIBMTP_event_enum {
 pub use self::LIBMTP_event_enum as LIBMTP_event_t;
 
 extern "C" {
-    #[link_name = "LIBMTP_debug"]
-    pub static mut LIBMTP_debug: libc::c_int;
     pub fn LIBMTP_Set_Debug(arg1: libc::c_int);
-    pub fn LIBMTP_Init();
+    pub fn LIBMTP_Init() -> LIBMTP_Context;
     pub fn LIBMTP_Get_Supported_Devices_List(arg1: *const *mut LIBMTP_device_entry_t,
                                              arg2: *const libc::c_int)
                                              -> libc::c_int;
@@ -1011,10 +1016,14 @@ extern "C" {
                                      arg2: *mut libc::c_int)
                                      -> LIBMTP_error_number_t;
     pub fn LIBMTP_Check_Specific_Device(busno: libc::c_int, devno: libc::c_int) -> libc::c_int;
-    pub fn LIBMTP_Open_Raw_Device(arg1: *mut LIBMTP_raw_device_t) -> *mut LIBMTP_mtpdevice_t;
+    pub fn LIBMTP_Open_Raw_Device(context: *mut LIBMTP_Context,
+                                  arg1: *mut LIBMTP_raw_device_t)
+                                  -> *mut LIBMTP_mtpdevice_t;
     pub fn LIBMTP_Open_Raw_Device_Uncached(arg1: *mut LIBMTP_raw_device_t) -> *mut LIBMTP_mtpdevice_t;
-    pub fn LIBMTP_Get_First_Device() -> *mut LIBMTP_mtpdevice_t;
-    pub fn LIBMTP_Get_Connected_Devices(arg1: *mut *mut LIBMTP_mtpdevice_t) -> LIBMTP_error_number_t;
+    pub fn LIBMTP_Get_First_Device(contet: *mut LIBMTP_Context) -> *mut LIBMTP_mtpdevice_t;
+    pub fn LIBMTP_Get_Connected_Devices(connect: *mut LIBMTP_Context,
+                                        arg1: *mut *mut LIBMTP_mtpdevice_t)
+                                        -> LIBMTP_error_number_t;
     pub fn LIBMTP_Number_Devices_In_List(arg1: *mut LIBMTP_mtpdevice_t) -> u32;
     pub fn LIBMTP_Release_Device_List(arg1: *mut LIBMTP_mtpdevice_t);
     pub fn LIBMTP_Release_Device(arg1: *mut LIBMTP_mtpdevice_t);
