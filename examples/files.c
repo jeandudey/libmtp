@@ -53,9 +53,9 @@ int main (int argc, char **argv)
 
   fprintf(stdout, "libmtp version: " LIBMTP_VERSION_STRING "\n\n");
 
-  LIBMTP_Init();
+  LIBMTP_Context context = LIBMTP_Init();
 
-  switch(LIBMTP_Get_Connected_Devices(&device_list))
+  switch(LIBMTP_Get_Connected_Devices(&context, &device_list))
   {
   case LIBMTP_ERROR_NO_DEVICE_ATTACHED:
     fprintf(stdout, "mtp-files: No Devices have been found\n");

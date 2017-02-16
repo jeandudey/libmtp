@@ -941,16 +941,18 @@ map_ptp_property_to_libmtp_property(uint16_t inproperty) {
  * The only thing this does at the moment is to initialise the
  * filetype mapping table, as well as load MTPZ data if necessary.
  */
-void LIBMTP_Init(void) {
+LIBMTP_Context LIBMTP_Init(void) {
     init_filemap();
     init_propertymap();
 
-    if (mtpz_loaddata() == -1)
-        use_mtpz = 0;
-    else
-        use_mtpz = 1;
+    LIBMTP_Context context = {0};
 
-    return;
+    if (mtpz_loaddata() == -1)
+        context.use_mtpz = 0;
+    else
+        context.use_mtpz = 1;
+
+    return context;
 }
 
 /**
@@ -1879,7 +1881,7 @@ static int set_object_u8(LIBMTP_mtpdevice_t *device, uint32_t const object_id,
  * @return a device pointer.
  * @see LIBMTP_Get_Connected_Devices()
  */
-LIBMTP_mtpdevice_t *LIBMTP_Get_First_Device(void) {
+LIBMTP_mtpdevice_t *LIBMTP_Get_First_Device(LIBMTP_Context* context) {
     LIBMTP_mtpdevice_t *first_device = NULL;
     LIBMTP_raw_device_t *devices;
     int numdevs;
@@ -1894,7 +1896,7 @@ LIBMTP_mtpdevice_t *LIBMTP_Get_First_Device(void) {
         return NULL;
     }
 
-    first_device = LIBMTP_Open_Raw_Device(&devices[0]);
+    first_device = LIBMTP_Open_Raw_Device(context, &devices[0]);
     free(devices);
     return first_device;
 }
@@ -2320,14 +2322,14 @@ LIBMTP_Open_Raw_Device_Uncached(LIBMTP_raw_device_t *rawdevice) {
     return mtp_device;
 }
 
-LIBMTP_mtpdevice_t *LIBMTP_Open_Raw_Device(LIBMTP_raw_device_t *rawdevice) {
+LIBMTP_mtpdevice_t *LIBMTP_Open_Raw_Device(LIBMTP_Context* context, LIBMTP_raw_device_t *rawdevice) {
     LIBMTP_mtpdevice_t *mtp_device = LIBMTP_Open_Raw_Device_Uncached(rawdevice);
 
     if (mtp_device == NULL)
         return NULL;
 
     /* Check for MTPZ devices. */
-    if (use_mtpz) {
+    if (context->use_mtpz) {
         LIBMTP_device_extension_t *tmpext = mtp_device->extensions;
 
         while (tmpext != NULL) {
@@ -2495,7 +2497,7 @@ int LIBMTP_Read_Event(LIBMTP_mtpdevice_t *device, LIBMTP_event_t *event,
  * @return a device pointer to a newly created mtpdevice (used in linked
  * list creation).
  */
-static LIBMTP_mtpdevice_t *create_usb_mtp_devices(LIBMTP_raw_device_t *devices,
+static LIBMTP_mtpdevice_t *create_usb_mtp_devices(LIBMTP_Context* context, LIBMTP_raw_device_t *devices,
                                                   int numdevs) {
     uint8_t i;
     LIBMTP_mtpdevice_t *mtp_device_list = NULL;
@@ -2503,7 +2505,7 @@ static LIBMTP_mtpdevice_t *create_usb_mtp_devices(LIBMTP_raw_device_t *devices,
 
     for (i = 0; i < numdevs; i++) {
         LIBMTP_mtpdevice_t *mtp_device;
-        mtp_device = LIBMTP_Open_Raw_Device(&devices[i]);
+        mtp_device = LIBMTP_Open_Raw_Device(context, &devices[i]);
 
         /* On error, try next device */
         if (mtp_device == NULL)
@@ -2545,7 +2547,7 @@ uint32_t LIBMTP_Number_Devices_In_List(LIBMTP_mtpdevice_t *device_list) {
  * @see LIBMTP_Number_Devices_In_List()
  */
 LIBMTP_error_number_t
-LIBMTP_Get_Connected_Devices(LIBMTP_mtpdevice_t **device_list) {
+LIBMTP_Get_Connected_Devices(LIBMTP_Context* context, LIBMTP_mtpdevice_t **device_list) {
     LIBMTP_raw_device_t *devices;
     int numdevs;
     LIBMTP_error_number_t ret;
@@ -2562,7 +2564,7 @@ LIBMTP_Get_Connected_Devices(LIBMTP_mtpdevice_t **device_list) {
         return LIBMTP_ERROR_NO_DEVICE_ATTACHED;
     }
 
-    *device_list = create_usb_mtp_devices(devices, numdevs);
+    *device_list = create_usb_mtp_devices(context, devices, numdevs);
     free(devices);
 
     /* TODO: Add wifi device access here */

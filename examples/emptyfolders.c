@@ -83,8 +83,8 @@ int main (int argc, char **argv)
   LIBMTP_folder_t *folders;
   LIBMTP_file_t *files;
 
-  LIBMTP_Init();
-  device = LIBMTP_Get_First_Device();
+  LIBMTP_Context context = LIBMTP_Init();
+  device = LIBMTP_Get_First_Device(&context);
   if (device == NULL) {
     printf("No devices.\n");
     exit (0);

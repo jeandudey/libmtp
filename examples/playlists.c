@@ -54,8 +54,8 @@ int main (int argc, char **argv)
 
   fprintf(stdout, "libmtp version: " LIBMTP_VERSION_STRING "\n\n");
 
-  LIBMTP_Init();
-  device = LIBMTP_Get_First_Device();
+  LIBMTP_Context context = LIBMTP_Init();
+  device = LIBMTP_Get_First_Device(&context);
   if (device == NULL) {
     printf("No devices.\n");
     exit (0);

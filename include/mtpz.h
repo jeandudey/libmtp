@@ -28,8 +28,5 @@
 uint16_t ptp_mtpz_handshake (PTPParams* params);
 int mtpz_loaddata(void);
 
-/* TODO: Remove this */
-int use_mtpz;
-
 #endif /* LIBMTP_H_INCLUSION_GUARD */
 

@@ -87,8 +87,8 @@ int main (int argc, char **argv) {
   }
 
     
-  LIBMTP_Init();
-  device = LIBMTP_Get_First_Device();
+  LIBMTP_Context context = LIBMTP_Init();
+  device = LIBMTP_Get_First_Device(&context);
   if (device == NULL) {
     printf("No devices.\n");
     return 0;

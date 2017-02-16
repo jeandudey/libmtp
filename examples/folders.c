@@ -45,7 +45,7 @@ int main (int argc, char **argv)
   int numrawdevices;
   int i;
 
-  LIBMTP_Init();
+  LIBMTP_Context context = LIBMTP_Init();
   printf("Attempting to connect device(s)\n");
 
   switch (LIBMTP_Detect_Raw_Devices(&rawdevices, &numrawdevices)) {
@@ -78,7 +78,7 @@ int main (int argc, char **argv)
     char *friendlyname;
     int ret;
 
-    device = LIBMTP_Open_Raw_Device(&rawdevices[i]);
+    device = LIBMTP_Open_Raw_Device(&context, &rawdevices[i]);
     if (device == NULL) {
       fprintf(stderr, "Unable to open raw device %d\n", i);
       continue;

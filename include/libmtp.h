@@ -507,6 +507,10 @@ typedef uint16_t (* MTPDataPutFunc)	(void* params, void* priv,
 #define LIBMTP_HANDLER_RETURN_ERROR 1
 #define LIBMTP_HANDLER_RETURN_CANCEL 2
 
+typedef struct LIBMTP_Context_struct {
+    int use_mtpz;
+} LIBMTP_Context;
+
 /**
  * @}
  * @defgroup structar libmtp data structures
@@ -812,7 +816,7 @@ extern "C" {
  * @defgroup internals The libmtp internals API.
  * @{
  */
-void LIBMTP_Init(void);
+LIBMTP_Context LIBMTP_Init(void);
 int LIBMTP_Get_Supported_Devices_List(LIBMTP_device_entry_t ** const, int * const);
 /**
  * @}
@@ -821,11 +825,11 @@ int LIBMTP_Get_Supported_Devices_List(LIBMTP_device_entry_t ** const, int * cons
  */
 LIBMTP_error_number_t LIBMTP_Detect_Raw_Devices(LIBMTP_raw_device_t **, int *);
 int LIBMTP_Check_Specific_Device(int busno, int devno);
-LIBMTP_mtpdevice_t *LIBMTP_Open_Raw_Device(LIBMTP_raw_device_t *);
+LIBMTP_mtpdevice_t *LIBMTP_Open_Raw_Device(LIBMTP_Context*, LIBMTP_raw_device_t *);
 LIBMTP_mtpdevice_t *LIBMTP_Open_Raw_Device_Uncached(LIBMTP_raw_device_t *);
 /* Begin old, legacy interface */
-LIBMTP_mtpdevice_t *LIBMTP_Get_First_Device(void);
-LIBMTP_error_number_t LIBMTP_Get_Connected_Devices(LIBMTP_mtpdevice_t **);
+LIBMTP_mtpdevice_t *LIBMTP_Get_First_Device(LIBMTP_Context* context);
+LIBMTP_error_number_t LIBMTP_Get_Connected_Devices(LIBMTP_Context* context, LIBMTP_mtpdevice_t **);
 uint32_t LIBMTP_Number_Devices_In_List(LIBMTP_mtpdevice_t *);
 void LIBMTP_Release_Device_List(LIBMTP_mtpdevice_t*);
 /* End old, legacy interface */

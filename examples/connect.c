@@ -65,11 +65,11 @@ int main (int argc, char **argv)
 
   checklang();
 
-  LIBMTP_Init();
+  LIBMTP_Context context = LIBMTP_Init();
 
   fprintf(stdout, "libmtp version: " LIBMTP_VERSION_STRING "\n\n");
 
-  device = LIBMTP_Get_First_Device();
+  device = LIBMTP_Get_First_Device(&context);
   if (device == NULL) {
     printf("No devices.\n");
     return 0;

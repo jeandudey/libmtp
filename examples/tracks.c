@@ -84,10 +84,10 @@ int main (int argc, char **argv)
   LIBMTP_mtpdevice_t *device_list, *device;
   LIBMTP_track_t *tracks;
 
-  LIBMTP_Init();
+  LIBMTP_Context context = LIBMTP_Init();
   fprintf(stdout, "Attempting to connect device(s)\n");
 
-  switch(LIBMTP_Get_Connected_Devices(&device_list))
+  switch(LIBMTP_Get_Connected_Devices(&context, &device_list))
   {
   case LIBMTP_ERROR_NO_DEVICE_ATTACHED:
     fprintf(stdout, "mtp-tracks: No Devices have been found\n");

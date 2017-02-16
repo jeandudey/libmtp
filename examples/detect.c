@@ -71,7 +71,7 @@ int main (int argc, char **argv)
   argc -= optind;
   argv += optind;
 
-  LIBMTP_Init();
+  LIBMTP_Context context = LIBMTP_Init();
 
   fprintf(stdout, "libmtp version: " LIBMTP_VERSION_STRING "\n\n");
 
@@ -133,7 +133,7 @@ int main (int argc, char **argv)
     uint8_t currbattlevel;
     int ret;
 
-    device = LIBMTP_Open_Raw_Device(&rawdevices[i]);
+    device = LIBMTP_Open_Raw_Device(&context, &rawdevices[i]);
     if (device == NULL) {
       fprintf(stderr, "Unable to open raw device %d\n", i);
       continue;
